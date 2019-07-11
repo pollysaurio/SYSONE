@@ -23,5 +23,8 @@ public class Constants {
     
     public final static String JSON_PARAM_OPCION = "opcionales";
     public final static String JSON_PARAM_MODELO = "modelo";
+    
+    public final static String TIPO_ALTA = "ALTA";
+    public final static String TIPO_CONSULTA = "CONSULTA";
 
 }

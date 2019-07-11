@@ -9,5 +9,6 @@ public interface IAutomovilService <T>{
 	List<AutomovilDTO> getAll();
 	T getById(int id);
 	boolean save(T t);
+	boolean delete(T t);
 
 }

@@ -1,6 +1,6 @@
 package com.sysone.entidades;
 
-public class AutoDecorator implements IAuto{
+public abstract class AutoDecorator implements IAuto{
 
 	int costo = 0;
 	private IAuto auto;

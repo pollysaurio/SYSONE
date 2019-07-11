@@ -32,16 +32,12 @@
 		<property name="annotatedClasses">
 			<list>
 				<value>com.sysone.service.TransaccionServiceImpl</value>
+				<value>com.sysone.service.AutomovilServiceImpl</value>
+				<value>com.sysone.service.OpcionServiceImpl</value>
+				<value>com.sysone.service.ABMServiceImpl</value>
 				<value>com.sysone.model.Transaccion</value>
 				<value>com.sysone.model.Opcion</value>
 				<value>com.sysone.model.Automovil</value>
-				<value>com.sysone.service.AutomovilServiceImpl</value>
-<!-- 				<value>com.osdepym.hibernate.entity.Contacto</value> -->
-<!-- 				<value>com.osdepym.hibernate.entity.PlanItem</value> -->
-<!-- 				<value>com.osdepym.hibernate.entity.PlanSeccion</value> -->
-<!-- 				<value>com.osdepym.hibernate.entity.Especialidad</value> -->
-<!-- 				<value>com.osdepym.hibernate.entity.EspecialidadPrestacion</value> -->
-<!-- 				<value>com.osdepym.hibernate.entity.Prestacion</value> -->
 			</list>
 		</property>
 		<property name="hibernateProperties">

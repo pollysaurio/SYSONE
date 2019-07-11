@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -22,10 +21,7 @@ import javax.persistence.Table;
 public class Transaccion {
 	
 	public Transaccion() {}
-	
-	@OneToOne(mappedBy = "transaccion")
-	private Automovil automovil;
-	
+		
     @ManyToMany(cascade = {	CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
     @JoinTable(name = "TRA_OPC",
         joinColumns = @JoinColumn(name = "id_transaccion"),
@@ -84,14 +80,6 @@ public class Transaccion {
 
 	public void setOpciones(Set<Opcion> opciones) {
 		this.opciones = opciones;
-	}
-
-	public Automovil getAutomovil() {
-		return automovil;
-	}
-
-	public void setAutomovil(Automovil automovil) {
-		this.automovil = automovil;
 	}
 
 }

@@ -88,5 +88,5 @@ public class MappingJsonTransaccion {
 			return null;
 		}
 	}
-	
+		
 }

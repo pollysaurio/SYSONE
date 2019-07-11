@@ -1,24 +1,12 @@
 package com.sysone.dto;
 
-import com.sysone.model.Transaccion;
-
 public class AutomovilDTO {
-	
-	private Transaccion transaccion;
 	
 	private int idAutomovil;
 
 	private String modelo;
 	
 	private String idTransaccion;
-
-	public Transaccion getTransaccion() {
-		return transaccion;
-	}
-
-	public void setTransaccion(Transaccion transaccion) {
-		this.transaccion = transaccion;
-	}
 
 	public int getIdAutomovil() {
 		return idAutomovil;

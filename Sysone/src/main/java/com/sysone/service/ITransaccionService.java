@@ -8,6 +8,7 @@ public interface ITransaccionService <T>{
 	
 	List<TransaccionDTO> getAll();
 	T getById(int id);
-	boolean save(T t);
+	int save(T t);
+	boolean delete(T t);
 
 }

@@ -53,8 +53,23 @@ public class AutomovilDAOImpl implements IAutomovilDAO <Automovil> {
 	}
 
 	@Override
-	public boolean save(Automovil t) throws Exception {
-		return false;
+	public boolean save(Automovil automovil) throws Exception {
+		try {
+			this.sessionFactory.getCurrentSession().save(automovil);
+			return true;
+		} catch(Exception e){
+			throw new CustomException(e.getMessage(), ErrorMessages.ERROR_SAVING_ENTITY);
+		}
+	}
+
+	@Override
+	public boolean delete(Automovil automovil) throws Exception {
+		try {
+			this.sessionFactory.getCurrentSession().delete(automovil);
+			return true;
+		} catch(Exception e){
+			throw new CustomException(e.getMessage(), ErrorMessages.ERROR_SAVING_ENTITY);
+		}
 	}
 
 }

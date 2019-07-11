@@ -104,12 +104,38 @@ public class TransaccionServiceImpl implements ITransaccionService <TransaccionD
 	}
 
 	@Transactional
-	public boolean save(TransaccionDTO transaccionDTO) {
+	public int save(TransaccionDTO transaccionDTO) {
 		try {
-			return dao.save(DTOtoEntity(transaccionDTO));
+			Transaccion transaccion = DTOtoEntity(transaccionDTO);
+			dao.save(transaccion);
+			return transaccion.getIdTransaccion();
 		} catch (CustomException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public boolean delete(TransaccionDTO transaccionDTO) {
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = this.sessionFactory.getCurrentSession();
+			tx = session.beginTransaction();
+
+			Transaccion transaccion = DTOtoEntity(transaccionDTO);
+			dao.delete(transaccion);
+			
+			tx.commit();
+			session.close();
+			return true;
+		} catch (CustomException e) {
+			SessionUtil.rollbackTransaction(session, tx);
+			e.printStackTrace();
+		} catch (Exception e) {
+			SessionUtil.rollbackTransaction(session, tx);
 			e.printStackTrace();
 		}
 		return false;

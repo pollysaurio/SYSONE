@@ -12,10 +12,8 @@ import org.springframework.stereotype.Service;
 
 import com.sysone.dao.IAutomovilDAO;
 import com.sysone.dto.AutomovilDTO;
-import com.sysone.dto.TransaccionDTO;
 import com.sysone.exception.CustomException;
 import com.sysone.model.Automovil;
-import com.sysone.model.Transaccion;
 import com.sysone.utils.SessionUtil;
 
 @Service ("IAutomovilService")
@@ -106,7 +104,8 @@ public class AutomovilServiceImpl implements IAutomovilService<AutomovilDTO>{
 	@Override
 	public boolean save(AutomovilDTO automovilDTO) {
 		try {
-			return dao.save(DTOtoEntity(automovilDTO));
+			dao.save(DTOtoEntity(automovilDTO));
+			return true;
 		} catch (CustomException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -114,8 +113,28 @@ public class AutomovilServiceImpl implements IAutomovilService<AutomovilDTO>{
 		}
 		return false;
 	}
+
+	@Override
+	public boolean delete(AutomovilDTO automovilDTO) {
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = this.sessionFactory.getCurrentSession();
+			tx = session.beginTransaction();
+
+			dao.delete(DTOtoEntity(automovilDTO));
+			
+			tx.commit();
+			session.close();
+			return true;
+		} catch (CustomException e) {
+			SessionUtil.rollbackTransaction(session, tx);
+			e.printStackTrace();
+		} catch (Exception e) {
+			SessionUtil.rollbackTransaction(session, tx);
+			e.printStackTrace();
+		}
+		return false;
 	}
-	
-	
 	
 }

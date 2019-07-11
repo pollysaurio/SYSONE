@@ -1,13 +1,10 @@
 package com.sysone.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -15,13 +12,9 @@ import javax.persistence.Table;
 public class Automovil {
 
 	public Automovil () {}
-	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "ID_TRANSACCION", referencedColumnName = "ID_TRANSACCION")
-	private Transaccion transaccion;
-	
+		
 	@Id
-	@Column(name = "id_transaccion", updatable = false, nullable = false)
+	@Column(name = "ID_AUTOMOVIL", updatable = false, nullable = false)
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int idAutomovil;
 	
@@ -30,14 +23,6 @@ public class Automovil {
 
 	@Column(name = "ID_TRANSACCION", nullable = false)
 	private String idTransaccion;
-
-	public Transaccion getTransaccion() {
-		return transaccion;
-	}
-
-	public void setTransaccion(Transaccion transaccion) {
-		this.transaccion = transaccion;
-	}
 
 	public int getIdAutomovil() {
 		return idAutomovil;

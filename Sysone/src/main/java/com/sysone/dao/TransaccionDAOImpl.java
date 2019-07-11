@@ -62,4 +62,14 @@ public class TransaccionDAOImpl implements ITransaccionDAO <Transaccion> {
 		}
 	}
 
+	@Override
+	public boolean delete(Transaccion transaccion) throws Exception {
+		try {
+			this.sessionFactory.getCurrentSession().delete(transaccion);
+			return true;
+		} catch(Exception e){
+			throw new CustomException(e.getMessage(), ErrorMessages.ERROR_SAVING_ENTITY);
+		}
+	}
+
 }
