@@ -63,8 +63,10 @@ public class SysoneController {
 		try {
 			int id = Integer.parseInt(idAuto);
 			automovilDTO.setIdAutomovil(id);
-			abmService.baja(transaccionDTO, automovilDTO);
-			json = "Baja Correcta";
+			if(abmService.baja(transaccionDTO, automovilDTO))
+				json = "Baja Correcta";
+			else
+				json = "Error en la baja";
 		} catch (NumberFormatException e) {
 			json = "Error en la baja";
 		}

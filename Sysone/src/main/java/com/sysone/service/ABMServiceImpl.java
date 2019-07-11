@@ -55,7 +55,7 @@ public class ABMServiceImpl implements IABMService {
 	}
 
 	@Override
-	public void baja(TransaccionDTO transaccionDTO, AutomovilDTO automovilDTO) {
+	public boolean baja(TransaccionDTO transaccionDTO, AutomovilDTO automovilDTO) {
 		Session session = null;
 		Transaction tx = null;
 		try {			
@@ -63,10 +63,12 @@ public class ABMServiceImpl implements IABMService {
 			transaccionDTO = tService.getById(Integer.valueOf(automovilDTO.getIdTransaccion()));
 			tService.delete(transaccionDTO);
 			automovilService.delete(automovilDTO);
+			return true;
 		} catch (Exception e) {
 			SessionUtil.rollbackTransaction(session, tx);
 			e.printStackTrace();
-		}		
+		}
+		return false;
 	}
 
 }
