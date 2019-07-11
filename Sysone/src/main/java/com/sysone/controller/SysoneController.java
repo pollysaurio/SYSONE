@@ -1,7 +1,6 @@
 package com.sysone.controller;
 
 import java.sql.Date;
-import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,13 +56,12 @@ public class SysoneController {
 	
 	@RequestMapping(value = "/transaccion/ABM/baja/{idAuto}", method = RequestMethod.GET, headers = "Accept=application/json")
 	public String baja (@PathVariable(value = "idAuto") String idAuto) {
-		TransaccionDTO transaccionDTO = new TransaccionDTO();
 		AutomovilDTO automovilDTO = new AutomovilDTO();
 		String json = "";
 		try {
 			int id = Integer.parseInt(idAuto);
 			automovilDTO.setIdAutomovil(id);
-			if(abmService.baja(transaccionDTO, automovilDTO))
+			if(abmService.baja(automovilDTO))
 				json = "Baja Correcta";
 			else
 				json = "Error en la baja";
@@ -102,11 +100,9 @@ public class SysoneController {
 		int costo = auto.getCosto();
 		transaccionDTO.setImporte(Double.valueOf(auto.getCosto()));
 		transaccionDTO.setTransaccionDate(new Date(System.currentTimeMillis()));
-		List<Opcion> opciones = opcionService.getOpciones(codes);
-		transaccionDTO.setOpciones(new HashSet<Opcion>(opciones));
 		automovilDTO.setModelo(modelo);
 		
-		abmService.alta(transaccionDTO, automovilDTO);
+		abmService.alta(transaccionDTO, automovilDTO, codes);
 		
 		return "El costo del vehiculo es de: " + String.valueOf(costo);
 	}

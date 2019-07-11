@@ -8,13 +8,13 @@ import javax.transaction.Transactional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sysone.dao.ITransaccionDAO;
 import com.sysone.dto.TransaccionDTO;
 import com.sysone.exception.CustomException;
+import com.sysone.helper.MappingHelper;
 import com.sysone.model.Transaccion;
 import com.sysone.utils.SessionUtil;
 
@@ -43,18 +43,6 @@ public class TransaccionServiceImpl implements ITransaccionService <TransaccionD
 		this.dao = dao;
 	}
 	
-	private TransaccionDTO entityToDTO (Transaccion transaccion) {
-		TransaccionDTO prestacionDTO = new TransaccionDTO();
-		BeanUtils.copyProperties(transaccion, prestacionDTO);
-		return prestacionDTO;
-	}
-	
-	private Transaccion DTOtoEntity (TransaccionDTO transaccionDTO) {
-		Transaccion transaccion = new Transaccion();
-		BeanUtils.copyProperties(transaccionDTO, transaccion);
-		return transaccion;
-	}
-
 	@Transactional
 	public List<TransaccionDTO> getAll() {
 		List<TransaccionDTO> transaccionesDTO = new ArrayList<TransaccionDTO>();
@@ -66,7 +54,7 @@ public class TransaccionServiceImpl implements ITransaccionService <TransaccionD
 			List<Transaccion> transaccionesEntities = dao.getAll();
 			
 			for (Transaccion transaccion : transaccionesEntities) {
-				transaccionesDTO.add(entityToDTO(transaccion));
+				transaccionesDTO.add(MappingHelper.getInstance().entityToDTO(transaccion));
 			}
 			
 			tx.commit();
@@ -89,7 +77,7 @@ public class TransaccionServiceImpl implements ITransaccionService <TransaccionD
 			session = this.sessionFactory.getCurrentSession();
 			tx = session.beginTransaction();
 			Transaccion transaccion = dao.getById(id);
-			transaccionDTO = entityToDTO(transaccion);
+			transaccionDTO = MappingHelper.getInstance().entityToDTO(transaccion);
 			tx.commit();
 			session.close();
 		} catch (CustomException e) {
@@ -106,7 +94,7 @@ public class TransaccionServiceImpl implements ITransaccionService <TransaccionD
 	@Transactional
 	public int save(TransaccionDTO transaccionDTO) {
 		try {
-			Transaccion transaccion = DTOtoEntity(transaccionDTO);
+			Transaccion transaccion = MappingHelper.getInstance().DTOtoEntity(transaccionDTO);
 			dao.save(transaccion);
 			return transaccion.getIdTransaccion();
 		} catch (CustomException e) {
@@ -119,23 +107,13 @@ public class TransaccionServiceImpl implements ITransaccionService <TransaccionD
 
 	@Override
 	public boolean delete(TransaccionDTO transaccionDTO) {
-		Session session = null;
-		Transaction tx = null;
 		try {
-			session = this.sessionFactory.getCurrentSession();
-			tx = session.beginTransaction();
-
-			Transaccion transaccion = DTOtoEntity(transaccionDTO);
+			Transaccion transaccion = MappingHelper.getInstance().DTOtoEntity(transaccionDTO);
 			dao.delete(transaccion);
-			
-			tx.commit();
-			session.close();
 			return true;
 		} catch (CustomException e) {
-			SessionUtil.rollbackTransaction(session, tx);
 			e.printStackTrace();
 		} catch (Exception e) {
-			SessionUtil.rollbackTransaction(session, tx);
 			e.printStackTrace();
 		}
 		return false;

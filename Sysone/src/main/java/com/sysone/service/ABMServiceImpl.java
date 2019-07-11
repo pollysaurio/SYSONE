@@ -1,5 +1,8 @@
 package com.sysone.service;
 
+import java.util.HashSet;
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -8,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.sysone.dto.AutomovilDTO;
 import com.sysone.dto.TransaccionDTO;
+import com.sysone.helper.MappingHelper;
 import com.sysone.model.Opcion;
 import com.sysone.utils.SessionUtil;
 
@@ -35,15 +39,17 @@ public class ABMServiceImpl implements IABMService {
 	IOpcionService<Opcion> opcionService;
 
 	@Override
-	public void alta(TransaccionDTO transaccionDTO, AutomovilDTO automovilDTO) {
+	public void alta(TransaccionDTO transaccionDTO, AutomovilDTO automovilDTO, String[] codes) {
 		Session session = null;
 		Transaction tx = null;
 		try {
 			session = this.sessionFactory.getCurrentSession();
 			tx = session.beginTransaction();
 			
-			int idTransaccion = tService.save(transaccionDTO);
-			automovilDTO.setIdTransaccion(String.valueOf(idTransaccion));
+			List<Opcion> opciones = opcionService.getOpciones(codes);
+			transaccionDTO.setOpciones(new HashSet<Opcion>(opciones));
+			
+			automovilDTO.setTransaccion(MappingHelper.getInstance().DTOtoEntity(transaccionDTO));
 			automovilService.save(automovilDTO);
 			
 			tx.commit();
@@ -55,17 +61,12 @@ public class ABMServiceImpl implements IABMService {
 	}
 
 	@Override
-	public boolean baja(TransaccionDTO transaccionDTO, AutomovilDTO automovilDTO) {
-		Session session = null;
-		Transaction tx = null;
+	public boolean baja(AutomovilDTO automovilDTO) {
 		try {			
 			automovilDTO = automovilService.getById(automovilDTO.getIdAutomovil());
-			transaccionDTO = tService.getById(Integer.valueOf(automovilDTO.getIdTransaccion()));
-			tService.delete(transaccionDTO);
 			automovilService.delete(automovilDTO);
 			return true;
 		} catch (Exception e) {
-			SessionUtil.rollbackTransaction(session, tx);
 			e.printStackTrace();
 		}
 		return false;

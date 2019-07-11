@@ -5,7 +5,7 @@ import com.sysone.dto.TransaccionDTO;
 
 public interface IABMService {
 	
-	void alta(TransaccionDTO transaccionDTO, AutomovilDTO automovilDTO);
-	boolean baja(TransaccionDTO transaccionDTO, AutomovilDTO automovilDTO);
+	void alta(TransaccionDTO transaccionDTO, AutomovilDTO automovilDTO, String[] codes);
+	boolean baja(AutomovilDTO automovilDTO);
 
 }

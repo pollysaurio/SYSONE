@@ -6,13 +6,13 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sysone.dao.IAutomovilDAO;
 import com.sysone.dto.AutomovilDTO;
 import com.sysone.exception.CustomException;
+import com.sysone.helper.MappingHelper;
 import com.sysone.model.Automovil;
 import com.sysone.utils.SessionUtil;
 
@@ -40,18 +40,6 @@ public class AutomovilServiceImpl implements IAutomovilService<AutomovilDTO>{
 	public void setDao(IAutomovilDAO<Automovil> dao) {
 		this.dao = dao;
 	}
-	
-	private AutomovilDTO entityToDTO (Automovil automovil) {
-		AutomovilDTO automovilDTO = new AutomovilDTO();
-		BeanUtils.copyProperties(automovil, automovilDTO);
-		return automovilDTO;
-	}
-	
-	private Automovil DTOtoEntity (AutomovilDTO automovilDTO) {
-		Automovil automovil = new Automovil();
-		BeanUtils.copyProperties(automovilDTO, automovil);
-		return automovil;
-	}
 
 	@Override
 	public List<AutomovilDTO> getAll() {
@@ -64,7 +52,7 @@ public class AutomovilServiceImpl implements IAutomovilService<AutomovilDTO>{
 			List<Automovil> automovilesEntities = dao.getAll();
 			
 			for (Automovil automovil : automovilesEntities) {
-				automovilesDTO.add(entityToDTO(automovil));
+				automovilesDTO.add(MappingHelper.getInstance().entityToDTO(automovil));
 			}
 			
 			tx.commit();
@@ -87,7 +75,7 @@ public class AutomovilServiceImpl implements IAutomovilService<AutomovilDTO>{
 			session = this.sessionFactory.getCurrentSession();
 			tx = session.beginTransaction();
 			Automovil automovil = dao.getById(id);
-			automovilDTO = entityToDTO(automovil);
+			automovilDTO = MappingHelper.getInstance().entityToDTO(automovil);
 			tx.commit();
 			session.close();
 		} catch (CustomException e) {
@@ -104,7 +92,7 @@ public class AutomovilServiceImpl implements IAutomovilService<AutomovilDTO>{
 	@Override
 	public boolean save(AutomovilDTO automovilDTO) {
 		try {
-			dao.save(DTOtoEntity(automovilDTO));
+			dao.save(MappingHelper.getInstance().DTOtoEntity(automovilDTO));
 			return true;
 		} catch (CustomException e) {
 			e.printStackTrace();
@@ -122,8 +110,8 @@ public class AutomovilServiceImpl implements IAutomovilService<AutomovilDTO>{
 			session = this.sessionFactory.getCurrentSession();
 			tx = session.beginTransaction();
 
-			dao.delete(DTOtoEntity(automovilDTO));
-			
+			dao.delete(MappingHelper.getInstance().DTOtoEntity(automovilDTO));
+
 			tx.commit();
 			session.close();
 			return true;

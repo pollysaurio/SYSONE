@@ -58,12 +58,6 @@ public class OpcionServiceImpl implements IOpcionService <Opcion> {
 		}
 		return opciones;
 	}
-	
-//	private OpcionDTO entityToDTO (Opcion opcion) {
-//		OpcionDTO opcionDTO = new OpcionDTO();
-//		BeanUtils.copyProperties(opcion, opcionDTO);
-//		return opcionDTO;
-//	}
 
 }
 
