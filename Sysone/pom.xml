@@ -13,7 +13,7 @@
 		<log4j.version>1.2.17</log4j.version>
 		<commonsdbcp.version>1.2.2</commonsdbcp.version>
 		<mssql.version>7.0.0.jre8</mssql.version>
-		<junit.version>4.11</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<javaxservlet.version>3.1.0</javaxservlet.version>
 		<javaxvalidation.version>2.0.1.Final</javaxvalidation.version>
 		<jackson.version>2.7.0</jackson.version>
